@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Query } from "react-apollo"
 import gql from "graphql-tag"
 import Checkbox from '@material-ui/core/Checkbox'
@@ -32,6 +33,7 @@ export default class PizzaSizes extends Component {
 
   handleSizeChange = e => {
     console.log('size change', e.target)
+    this.props.savePizzaSize(e.target.value)
   }
 
   render() {
@@ -66,4 +68,8 @@ export default class PizzaSizes extends Component {
       </Query>
     )
   }
+}
+
+PizzaSizes.propTypes = {
+  savePizzaSize: PropTypes.func,
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PizzaSizes from './PizzaSizes'
+import PizzaSizes from './PizzaSizes/container'
 
 export default class Order extends Component {
   render() {
