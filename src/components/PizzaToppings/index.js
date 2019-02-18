@@ -10,8 +10,17 @@ export default class PizzaToppings extends Component {
   constructor() {
     super()
     this.state = {
-      edit: false
+      disable: false,
+      toppingCount: 0
     }
+  }
+
+  componentDidMount() {
+    const { currentPizzaToppings } = this.props
+
+    const checkedToppings = _.filter(currentPizzaToppings,
+      {defaultSelected: true})
+    this.setState({ toppingCount: checkedToppings.length })
   }
 
   getLabel(data) {
@@ -21,6 +30,23 @@ export default class PizzaToppings extends Component {
         <div className="font-small">${data.price}</div>
       </div>
     )
+  }
+
+  updateToppingCount = checked => {
+    const { currentPizzaMaxToppings } = this.props
+    const { toppingCount } = this.state
+
+    if(checked) {
+      this.setState({ toppingCount: toppingCount + 1})
+      if(currentPizzaMaxToppings === toppingCount + 1) {
+        this.setState({ disable: true })
+      }
+    } else {
+      this.setState({ toppingCount: toppingCount - 1})
+      if(currentPizzaMaxToppings !== toppingCount - 1) {
+        this.setState({ disable: false })
+      }
+    }
   }
 
   handleToppingChange = e => {
@@ -35,11 +61,12 @@ export default class PizzaToppings extends Component {
     currentPizzaToppings[index].defaultSelected = !enableState
 
     saveCurrentPizzaToppings(currentPizzaToppings)
-    this.setState({ edit: true})
+    this.updateToppingCount(currentPizzaToppings[index].defaultSelected)
   }
 
   render() {
     const { currentPizzaToppings } = this.props
+    const { disable } = this.state
     return(
       <div className="section">
         <Grid container justify="center" spacing={40}>
@@ -50,6 +77,7 @@ export default class PizzaToppings extends Component {
                   control={
                     <Checkbox
                       checked={data.defaultSelected}
+                      disabled={!data.defaultSelected && disable}
                       onChange={e => this.handleToppingChange(e)}
                       value={data.topping.name} />
                     }
@@ -68,5 +96,6 @@ export default class PizzaToppings extends Component {
 PizzaToppings.propTypes = {
   currentPizzaSize: PropTypes.string,
   currentPizzaToppings: PropTypes.array,
+  currentPizzaMaxToppings: PropTypes.number,
   saveCurrentPizzaToppings: PropTypes.func,
 }

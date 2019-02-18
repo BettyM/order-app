@@ -11,3 +11,8 @@ export const getCurrentPizzaToppings = createSelector(
   currentPizzaStore,
   pizza => pizza.toppings
 )
+
+export const getCurrentPizzaMaxToppings = createSelector(
+  currentPizzaStore,
+  pizza => pizza.maxToppings
+)

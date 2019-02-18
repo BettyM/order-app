@@ -18,6 +18,7 @@ export const getPizzaToppings = (size = 'large') => {
     query: gql`
       {
         pizzaSizeByName(name: ${size}) {
+          maxToppings
           toppings {
             topping {
               name
@@ -28,5 +29,5 @@ export const getPizzaToppings = (size = 'large') => {
         }
       }
     `
-  }).then(response => response.data.pizzaSizeByName.toppings)
+  }).then(response => response.data.pizzaSizeByName)
 }
