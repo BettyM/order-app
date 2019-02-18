@@ -1,7 +1,8 @@
 import { handleActions } from 'redux-actions'
 
 const defaultState = {
-  size: null
+  size: null,
+  toppings: []
 }
 
 const reducerMap = {
@@ -9,6 +10,12 @@ const reducerMap = {
     return {
       ...state,
       size: payload,
+    }
+  },
+  'SET_CURRENT_PIZZA_TOPPINGS': (state, {payload}) => {
+    return {
+      ...state,
+      toppings: payload,
     }
   },
 }

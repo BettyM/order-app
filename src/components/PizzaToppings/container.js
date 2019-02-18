@@ -1,13 +1,19 @@
 import { connect } from 'react-redux'
-import { getCurrentPizzaSize } from '../../store/reducers/selectors'
+import { pizzaActions } from '../../store/actions'
+import {
+  getCurrentPizzaSize,
+  getCurrentPizzaToppings,
+} from '../../store/reducers/selectors'
 import PizzaToppings from './index'
 
 const mapDispatchToProps = {
+  saveCurrentPizzaToppings: pizzaActions.saveCurrentPizzaToppings
 }
 
 const mapStateToProps = (state) => {
   return {
-    currentPizzaSize: getCurrentPizzaSize(state)
+    currentPizzaSize: getCurrentPizzaSize(state),
+    currentPizzaToppings: getCurrentPizzaToppings(state)
   }
 }
 

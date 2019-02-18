@@ -6,3 +6,8 @@ export const getCurrentPizzaSize = createSelector(
   currentPizzaStore,
   pizza => pizza.size
 )
+
+export const getCurrentPizzaToppings = createSelector(
+  currentPizzaStore,
+  pizza => pizza.toppings
+)
