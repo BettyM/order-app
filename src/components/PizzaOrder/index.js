@@ -13,6 +13,7 @@ export default class PizzaOrder extends Component {
   constructor() {
     super()
     this.state = {
+      edit: false,
       activeStep: 0
     }
   }
@@ -32,7 +33,10 @@ export default class PizzaOrder extends Component {
       case 1:
         return <PizzaToppings />
       case 2:
-        return <OrderTotal pizzas={this.props.pizzas}/>
+        return <OrderTotal
+          pizzas={this.props.pizzas}
+          removeItem={this.handleRemoveItem}
+        />
       default:
         return <div></div>
     }
@@ -64,7 +68,6 @@ export default class PizzaOrder extends Component {
   handleBack = () => {
     const { saveCurrentPizza } = this.props
     const { activeStep } = this.state
-    console.log(activeStep)
     if(activeStep === 2) {
       this.setState({ activeStep: 0 })
       saveCurrentPizza()
@@ -73,8 +76,17 @@ export default class PizzaOrder extends Component {
     }
   }
 
-  handleSendOrder = () => {
-    console.log('SEND ORDER!')
+  handleRemoveItem = (indexPizza, indexTopping = null) => {
+    const { pizzas, savePizza } = this.props
+    if(indexTopping) {
+      pizzas[indexPizza].toppings[indexTopping].defaultSelected = false
+      savePizza(pizzas)
+      this.setState({ edit: true})
+    } else {
+      pizzas.splice(indexPizza, 1)
+      savePizza(pizzas)
+      this.setState({ edit: true})
+    }
   }
 
   render() {
@@ -96,12 +108,11 @@ export default class PizzaOrder extends Component {
         <div>
           {activeStep === steps.length ? (
             <div>
-              <Typography>
-                All steps completed - you&apos;re finished
+              <Typography component={'span'}>
+                <div className="section font-big">
+                  We are preparing your order!!
+                </div>
               </Typography>
-              <Button onClick={this.handleSendOrder}>
-                Send Order
-              </Button>
             </div>
           ) : (
             <div>

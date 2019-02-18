@@ -36,8 +36,14 @@ code {
   font-size: 14px;
 }
 
+.font-big {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .total {
   margin: 40px 550px 50px;
+  width: 200px;
 }
 
 .total-final {
@@ -50,7 +56,7 @@ code {
 }
 
 .total-extras {
-  margin-left: 30px;
+  margin-left: 20px;
   font-size: 13px;
   color: #716E6D;
   font-style: italic;
@@ -58,11 +64,24 @@ code {
 
 .total-text {
   display: inline-block;
+  float: left;
+  text-align: left;
   text-transform: capitalize;
+  width: 90px;
 }
 
 .total-number {
   display: inline-block;
   float: right;
   margin-left: 20px;
+}
+
+.item {
+  margin-left: 10px !important;
+  padding: 0px !important;
+  font-size: 17px;
+}
+
+#item * {
+  font-size: 17px;
 }
