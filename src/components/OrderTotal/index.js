@@ -20,10 +20,11 @@ const getTotal = data => {
 const OrderTotal = pizzas => {
   const total = getTotal(pizzas)
   return(
-    <div className="section total">
+    <div className="total">
       <Grid container justify="center" spacing={40}>
+        <Grid item xs={12}>
         {pizzas.pizzas.map((pizza, index) =>
-          <Grid item key={index}>
+          <Grid item xs={12} key={index}>
             <div className="total-text">
               {pizza.size.name}
             </div>
@@ -42,10 +43,11 @@ const OrderTotal = pizzas => {
                 }
               </div>
             )}
-            <div className="total total-final">Total:</div>
-            <div className="total total-final">${(total).toFixed(2)}</div>
           </Grid>
         )}
+        </Grid>
+        <div className="total-final">Total:</div>
+        <div className="total-final">${(total).toFixed(2)}</div>
       </Grid>
     </div>
   )

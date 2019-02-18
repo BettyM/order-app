@@ -8,6 +8,7 @@ import {
 import PizzaOrder from './'
 
 const mapDispatchToProps = {
+  saveCurrentPizza: pizzaActions.saveCurrentPizzaSize,
   savePizza: pizzaActions.savePizza
 }
 

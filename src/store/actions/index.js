@@ -18,10 +18,12 @@ pizzaActions.loadPizzaSizes = () => async dispatch => {
 }
 
 pizzaActions.saveCurrentPizzaSize = size => async dispatch => {
-  const data = await getPizzaToppings(size)
+  if(size) {
+    const data = await getPizzaToppings(size)
+    await dispatch(pizzaActions.setCurrentPizzaToppings(data.toppings))
+    await dispatch(pizzaActions.setCurrentPizzaMaxToppings(data.maxToppings))
+  }
   await dispatch(pizzaActions.setCurrentPizzaSize(size))
-  await dispatch(pizzaActions.setCurrentPizzaToppings(data.toppings))
-  await dispatch(pizzaActions.setCurrentPizzaMaxToppings(data.maxToppings))
 }
 
 pizzaActions.saveCurrentPizzaToppings = toppings => async dispatch => {

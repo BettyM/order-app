@@ -62,9 +62,15 @@ export default class PizzaOrder extends Component {
   }
 
   handleBack = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1,
-    }))
+    const { saveCurrentPizza } = this.props
+    const { activeStep } = this.state
+    console.log(activeStep)
+    if(activeStep === 2) {
+      this.setState({ activeStep: 0 })
+      saveCurrentPizza()
+    } else {
+      this.setState({ activeStep: activeStep - 1 })
+    }
   }
 
   handleSendOrder = () => {
@@ -107,7 +113,7 @@ export default class PizzaOrder extends Component {
                   disabled={activeStep === 0}
                   onClick={this.handleBack}
                 >
-                  Back
+                  {activeStep === steps.length - 1 ? 'Add Pizza' : 'Back'}
                 </Button>
                 <Button
                   variant="contained"
@@ -130,5 +136,6 @@ PizzaOrder.propTypes = {
   currentPizzaSize: PropTypes.object,
   currentPizzaToppings: PropTypes.array,
   pizzas: PropTypes.array,
+  saveCurrentPizza: PropTypes.func,
   savePizza: PropTypes.func,
 }
