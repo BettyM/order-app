@@ -31,45 +31,53 @@ export default class PizzaSizes extends Component {
     )
   }
 
+  getSizeState = size => {
+    const { currentPizzaSize } = this.props
+    return currentPizzaSize === size
+  }
+
   handleSizeChange = e => {
-    console.log('size change', e.target)
-    this.props.savePizzaSize(e.target.value)
+    this.props.saveCurrentPizzaSize(e.target.value)
   }
 
   render() {
-   return(
-      <Query query={SIZE_QUERY}>
-      {({ loading, error, data }) => {
-        if (loading) return <div>LOADING...</div>
-        if (error) return <div>ERROR</div>
-        return (
-          <div className="sizes-section">
-          <Grid container justify="center" spacing={40}>
-            <FormGroup row>
-              {data.pizzaSizes.map((pizza, index) =>
-                <Grid item key={index}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                    checked={false}
-                    onChange={e => this.handleSizeChange(e)}
-                    value={pizza.name} />
-                  }
-                  label={this.getLabel(pizza)}
-                  key={pizza.name}
-                />
-                </Grid>
-              )}
-            </FormGroup>
-          </Grid>
-          </div>
-        )
-      }}
-      </Query>
+    const { currentPizzaSize } = this.props
+
+    return(
+      <div className="section">
+        <Query query={SIZE_QUERY}>
+        {({ loading, error, data }) => {
+          if (loading) return <div>LOADING...</div>
+          if (error) return <div>ERROR</div>
+          return (
+            <Grid container justify="center" spacing={40}>
+              <FormGroup row>
+                {data.pizzaSizes.map((pizza, index) =>
+                  <Grid item key={index}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={currentPizzaSize === pizza.name}
+                          onChange={e => this.handleSizeChange(e)}
+                          value={pizza.name} />
+                      }
+                      label={this.getLabel(pizza)}
+                      key={pizza.name}
+                    />
+                  </Grid>
+                )}
+              </FormGroup>
+            </Grid>
+          )
+        }}
+        </Query>
+      </div>
     )
   }
 }
 
 PizzaSizes.propTypes = {
+  currentPizzaSize: PropTypes.string,
+  saveCurrentPizzaSize: PropTypes.func,
   savePizzaSize: PropTypes.func,
 }

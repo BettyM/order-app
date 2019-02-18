@@ -1,11 +1,8 @@
 import { connect } from 'react-redux'
-import { pizzaActions } from '../../store/actions'
 import { getCurrentPizzaSize } from '../../store/reducers/selectors'
-import PizzaSizes from './index'
+import PizzaOrder from './'
 
 const mapDispatchToProps = {
-  saveCurrentPizzaSize: pizzaActions.saveCurrentPizzaSize,
-  savePizzaSize: pizzaActions.savePizzaSize
 }
 
 const mapStateToProps = (state) => {
@@ -17,4 +14,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PizzaSizes)
+)(PizzaOrder)

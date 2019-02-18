@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import reducers from './store/reducers'
 import './App.css'
-import PizzaApp from './components'
+import PizzaApp from './components/PizzaOrder/container'
 
 const client = new ApolloClient({
   uri: "https://core-graphql.dev.waldo.photos/pizza"
