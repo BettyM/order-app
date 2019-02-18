@@ -1,23 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Query } from "react-apollo"
-import gql from "graphql-tag"
 import Checkbox from '@material-ui/core/Checkbox'
 import Grid from '@material-ui/core/Grid'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 
-const SIZE_QUERY = gql`
-  {
-    pizzaSizes {
-      name
-      maxToppings
-      basePrice
-    }
-  }
-`
-
 export default class PizzaSizes extends Component {
+  componentDidMount = () => {
+    this.props.loadPizzaSizes()
+  }
+
   getLabel(data) {
     const maxToppingLabel = data.maxToppings ?
       `1 to ${data.maxToppings} Ingredients` : 'No limit of ingredients'
@@ -33,51 +25,53 @@ export default class PizzaSizes extends Component {
 
   getSizeState = size => {
     const { currentPizzaSize } = this.props
-    return currentPizzaSize === size
+    return !!currentPizzaSize ? currentPizzaSize.name === size : null
   }
 
   handleSizeChange = e => {
-    this.props.saveCurrentPizzaSize(e.target.value)
+    const { pizzaSizes } = this.props
+    this.props.saveCurrentPizzaSize(pizzaSizes[e.target.id])
   }
 
   render() {
-    const { currentPizzaSize } = this.props
+    const { currentPizzaSize, pizzaSizes } = this.props
 
     return(
       <div className="section">
-        <Query query={SIZE_QUERY}>
-        {({ loading, error, data }) => {
-          if (loading) return <div>LOADING...</div>
-          if (error) return <div>ERROR</div>
-          return (
-            <Grid container justify="center" spacing={40}>
-              <FormGroup row>
-                {data.pizzaSizes.map((pizza, index) =>
-                  <Grid item key={index}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={currentPizzaSize === pizza.name}
-                          onChange={e => this.handleSizeChange(e)}
-                          value={pizza.name} />
-                      }
-                      label={this.getLabel(pizza)}
-                      key={pizza.name}
-                    />
-                  </Grid>
-                )}
-              </FormGroup>
-            </Grid>
-          )
-        }}
-        </Query>
+        {!!pizzaSizes &&
+          <Grid container justify="center" spacing={40}>
+            <FormGroup row>
+              {pizzaSizes.map((pizza, index) =>
+                <Grid item key={index}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={
+                          currentPizzaSize ?
+                            currentPizzaSize.name === pizza.name :
+                            false
+                        }
+                        id={(index).toString()}
+                        onChange={e => this.handleSizeChange(e)}
+                        value={pizza.name} />
+                    }
+                    label={this.getLabel(pizza)}
+                    key={pizza.name}
+                  />
+                </Grid>
+              )}
+            </FormGroup>
+          </Grid>
+        }
       </div>
     )
   }
 }
 
 PizzaSizes.propTypes = {
-  currentPizzaSize: PropTypes.string,
+  currentPizzaSize: PropTypes.object,
+  loadPizzaSizes: PropTypes.func,
+  pizzaSizes: PropTypes.array,
   saveCurrentPizzaSize: PropTypes.func,
   savePizzaSize: PropTypes.func,
 }

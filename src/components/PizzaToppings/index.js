@@ -94,7 +94,6 @@ export default class PizzaToppings extends Component {
 }
 
 PizzaToppings.propTypes = {
-  currentPizzaSize: PropTypes.string,
   currentPizzaToppings: PropTypes.array,
   currentPizzaMaxToppings: PropTypes.number,
   saveCurrentPizzaToppings: PropTypes.func,

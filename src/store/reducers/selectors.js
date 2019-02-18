@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect'
 
-const currentPizzaStore = state => state.currentPizza || {}
+const currentPizzaStore = state => state.currentPizza || null
+const pizzaStore = state => state.pizzas || []
+const serviceStore = state => state.servicePizza || []
 
 export const getCurrentPizzaSize = createSelector(
   currentPizzaStore,
@@ -15,4 +17,14 @@ export const getCurrentPizzaToppings = createSelector(
 export const getCurrentPizzaMaxToppings = createSelector(
   currentPizzaStore,
   pizza => pizza.maxToppings
+)
+
+export const getPizzas = createSelector(
+  pizzaStore,
+  pizzas => pizzas.order
+)
+
+export const getPizzaSizes = createSelector(
+  serviceStore,
+  pizzas => pizzas.sizes
 )

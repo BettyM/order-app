@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import PizzaSizes from '../PizzaSizes/container'
 import PizzaToppings from '../PizzaToppings/container'
+import OrderTotal from '../OrderTotal'
 
 export default class PizzaOrder extends Component {
   constructor() {
@@ -31,17 +32,33 @@ export default class PizzaOrder extends Component {
       case 1:
         return <PizzaToppings />
       case 2:
-        return <div></div>
+        return <OrderTotal pizzas={this.props.pizzas}/>
       default:
         return <div></div>
     }
   }
 
   handleNext = () => {
+    const {
+      currentPizzaSize,
+      currentPizzaToppings,
+      pizzas,
+      savePizza
+    } = this.props
     const { activeStep } = this.state
     this.setState({
       activeStep: activeStep + 1,
     })
+
+    if(activeStep === 1) {
+      const pizzaData = {
+        size: currentPizzaSize,
+        toppings: currentPizzaToppings
+      }
+      pizzas.push(pizzaData)
+
+      savePizza(pizzas)
+    }
   }
 
   handleBack = () => {
@@ -110,5 +127,8 @@ export default class PizzaOrder extends Component {
 }
 
 PizzaOrder.propTypes = {
-  currentPizzaSize: PropTypes.string,
+  currentPizzaSize: PropTypes.object,
+  currentPizzaToppings: PropTypes.array,
+  pizzas: PropTypes.array,
+  savePizza: PropTypes.func,
 }

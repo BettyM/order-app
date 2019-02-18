@@ -11,8 +11,8 @@ const sizes = {
   LARGE: 'large'
 }
 
-export const getPizzaToppings = (size = 'large') => {
-  size = Object.keys(sizes).find(x => sizes[x].includes(size))
+export const getPizzaToppings = (size) => {
+  size = Object.keys(sizes).find(x => sizes[x].includes(size.name))
 
   return client.query({
     query: gql`
@@ -30,4 +30,18 @@ export const getPizzaToppings = (size = 'large') => {
       }
     `
   }).then(response => response.data.pizzaSizeByName)
+}
+
+export const getPizzaSizes = () => {
+  return client.query({
+    query: gql`
+      {
+        pizzaSizes {
+          name
+          maxToppings
+          basePrice
+        }
+      }
+    `
+  }).then(response => response.data.pizzaSizes)
 }

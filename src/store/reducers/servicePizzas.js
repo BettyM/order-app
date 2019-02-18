@@ -1,14 +1,14 @@
 import { handleActions } from 'redux-actions'
 
 const defaultState = {
-  order: []
+  sizes: []
 }
 
 const reducerMap = {
-  'SET_PIZZA': (state, {payload}) => {
+  'SET_PIZZA_SERVICE': (state, {payload}) => {
     return {
       ...state,
-      order: payload,
+      sizes: payload,
     }
   },
 }
